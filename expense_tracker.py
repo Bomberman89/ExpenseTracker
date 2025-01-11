@@ -2,7 +2,7 @@
 def add_expense(expenses):
     print("\nEnter Expense Details:")
     name = input("Enter Name: ")
-    amount = float("Amount: $")
+    amount = float(input("Amount: $"))
     date = input("Date (YYYY-MM-DD): ")
 
     # Create a dictionary to represent the expense
