@@ -17,6 +17,17 @@ def add_expense(expenses):
 
     print("\nExpense added successfully!")
 
+# Show user the expenses if there are any
+def view_expenses(expenses):
+    # Check for expenses
+    if not expenses:
+        print("\nNo expenses added yet.")
+    else:
+        print("\nExpenses:")
+        # Loop through the expenses list and print each in a readable format
+        for expense in expenses:
+            print(f"{expense['date']} - {expense['name']}: ${expense['amount']:.2f}")
+
 def main():
     # This will hold our list of expenses
     expenses = []
@@ -36,7 +47,8 @@ def main():
             add_expense(expenses)
             print("Add expense functionality goes here!")
         elif choice == "2":
-            print("View expense functionality goes here!")
+            # Call the function to view expenses
+            view_expenses(expenses)
         elif choice == "3":
             print("Goodbye!")
             break
