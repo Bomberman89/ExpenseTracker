@@ -1,3 +1,22 @@
+import json
+
+# Attempts to load expenses from a JSON file
+def load_expenses(filename):
+    try:
+        # Open file with "r" read-only capabilites
+        with open(filename, "r") as file:
+            expenses = json.load(file)
+    # Returns empty list if file is not found
+    except FileNotFoundError:
+        expenses = []
+    return expenses
+
+# Saves the current list of expenses to the JSON file
+def save_expenses(filename, expenses):
+    # Open file with "w" read and write capabilities
+    with open(filename, "w") as file:
+        json.dump(expenses, file, indent=4)
+
 # Prompts the user to enter the details for an expense
 def add_expense(expenses):
     print("\nEnter Expense Details:")
@@ -29,8 +48,10 @@ def view_expenses(expenses):
             print(f"{expense['date']} - {expense['name']}: ${expense['amount']:.2f}")
 
 def main():
-    # This will hold our list of expenses
-    expenses = []
+    # This will be the name of our file for now
+    filename = "expenses.json" ## Would like to add functionality for user to decide between custom or default names
+    # Load the expenses from file at the start
+    expenses = load_expenses(filename)
 
     # Runs loop that keeps displaying the menu options until the user chooses the exit (option 3)
     while True:
@@ -45,12 +66,15 @@ def main():
         if choice == "1":
             # Call the function to add an expense
             add_expense(expenses)
-            print("Add expense functionality goes here!")
+            # Save expenses to the file after adding
+            save_expenses(filename, expenses)
         elif choice == "2":
             # Call the function to view expenses
             view_expenses(expenses)
         elif choice == "3":
             print("Goodbye!")
+            # Save expenses to the file when exiting
+            save_expenses(filename, expenses)
             break
         else:
             print("Invalid choice. Please try again.")
