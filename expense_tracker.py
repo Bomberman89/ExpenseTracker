@@ -1,3 +1,4 @@
+# Import the json package
 import json
 
 # Attempts to load expenses from a JSON file
