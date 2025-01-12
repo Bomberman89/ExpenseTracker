@@ -1,0 +1,12 @@
+[
+    {
+        "name": "Coffee",
+        "amount": 5.5,
+        "date": "2025-01-11"
+    },
+    {
+        "name": "Grocery",
+        "amount": 30.0,
+        "date": "2025-01-12"
+    }
+]
