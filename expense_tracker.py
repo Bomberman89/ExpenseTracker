@@ -44,9 +44,49 @@ def view_expenses(expenses):
         print("\nNo expenses added yet.")
     else:
         print("\nExpenses:")
-        # Loop through the expenses list and print each in a readable format
-        for expense in expenses:
-            print(f"{expense['date']} - {expense['name']}: ${expense['amount']:.2f}")
+        # Loop through the expenses list and print each in a readable format (now including an index)
+        for index, expense in enumerate(expenses):
+            print(f"{index + 1}. {expense['date']} - {expense['name']}: ${expense['amount']:.2f}")
+
+# Give user ability to edit the expenses listed
+def edit_expense(expenses):
+    # Show the list of expenses
+    view_expenses(expenses)
+    try:
+        index = int(input("\nEnter the number of the expense you want to edit: ")) - 1
+        if 0 <= index < len(expenses):
+            print(f"\nEditing {expenses[index]['name']}:")
+            name = input("New Name (leave blank to keep the same): ") or expenses[index]['name']
+            amount = input(f"New Amount (leave blank to keep ${expenses[index]['amount']}): ") or str(expenses[index]['amount'])
+            date = input(f"New Date (leave blank to keep {expenses[index]['date']}): ") or expenses[index]['date']
+
+            # Update the expense
+            expenses[index] = {
+                "name": name,
+                "amount": float(amount),
+                "date": date
+            }
+            print("\nExpense updated successfully!")
+        else:
+            print("Invalid expense number.")
+    except ValueError:
+        print("Please enter a valid number.")
+
+# Gives user the ability to delete an expense
+def delete_expenses(expenses):
+    # Show the list of expenses
+    view_expenses(expenses)
+    try:
+        index = int(input("\nEnter the number of the expense you want to delete: ")) - 1
+        if 0 <= index < len(expenses):
+            # Remove expense
+            removed_expense = expenses.pop(index)
+            print(f"\n{removed_expense['name']} has been deleted.")
+        else:
+            print("Invalid expense number.")
+    except ValueError:
+        print("Please enter a valid number.")
+
 
 def main():
     # This will be the name of our file for now
@@ -59,7 +99,9 @@ def main():
         print("\nExpense Tracker")
         print("1. Add Expense")
         print("2. View Expenses")
-        print("3. Exit")
+        print("3. Edit Expense")
+        print("4. Delete Expense")
+        print("5. Exit")
 
         choice = input("Choose an option: ")
 
@@ -73,6 +115,16 @@ def main():
             # Call the function to view expenses
             view_expenses(expenses)
         elif choice == "3":
+            # Call the function to edit expenses
+            edit_expense(expenses)
+            # Save expenses to the file after editing
+            save_expenses(filename, expenses)
+        elif choice == "4":
+            # Call the function to delete expenses
+            delete_expenses(expenses)
+            # Save expenses to the file after deleting
+            save_expenses(filename, expenses)
+        elif choice == "5":
             print("Goodbye!")
             # Save expenses to the file when exiting
             save_expenses(filename, expenses)
