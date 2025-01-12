@@ -25,17 +25,39 @@ def add_expense(expenses):
     amount = float(input("Amount: $"))
     date = input("Date (YYYY-MM-DD): ")
 
+    # Prompt user for a category
+    print("Choose a category:")
+    print("1. Food")
+    print("2. Transport")
+    print("3. Utilites")
+    print("4. Entertainment")
+    print("5. Miscellaneous")
+    category_choice = input("Enter the number for the category: ")
+
+    categories = {
+        "1": "Food",
+        "2": "Transport",
+        "3": "Utilites",
+        "4": "Entertainment",
+        "5": "Miscellaneous"
+    }
+
+    # Get the category based on user input, defaults to "Miscellaneous"
+    category = categories.get(category_choice, "Miscellaneous")
+
     # Create a dictionary to represent the expense
     expense = {
         "name": name,
         "amount": amount,
-        "date": date
+        "date": date,
+        # Add category to the expense
+        "category": category
     }
 
     # Add the expense to the list
     expenses.append(expense)
 
-    print("\nExpense added successfully!")
+    print(f"\nExpense added successfully under the category: {category}")
 
 # Show user the expenses if there are any
 def view_expenses(expenses):
@@ -46,7 +68,7 @@ def view_expenses(expenses):
         print("\nExpenses:")
         # Loop through the expenses list and print each in a readable format (now including an index)
         for index, expense in enumerate(expenses):
-            print(f"{index + 1}. {expense['date']} - {expense['name']}: ${expense['amount']:.2f}")
+            print(f"{index + 1}. {expense['date']} - {expense['name']}: ${expense['amount']:.2f} [{expense['category']}]")
 
 # Give user ability to edit the expenses listed
 def edit_expense(expenses):
@@ -60,11 +82,30 @@ def edit_expense(expenses):
             amount = input(f"New Amount (leave blank to keep ${expenses[index]['amount']}): ") or str(expenses[index]['amount'])
             date = input(f"New Date (leave blank to keep {expenses[index]['date']}): ") or expenses[index]['date']
 
+            print("New Category (leave blank to keep the same):")
+            print("1. Food")
+            print("2. Transport")
+            print("3. Utilites")
+            print("4. Entertainment")
+            print("5. Miscellaneous")
+            category_choice = input("Enter the number for the category: ")
+
+            categories = {
+                "1": "Food",
+                "2": "Transport",
+                "3": "Utilities",
+                "4": "Entertainment",
+                "5": "Miscellaneous"
+            }
+
+            category = categories.get(category_choice, expenses[index]['category'])
+
             # Update the expense
             expenses[index] = {
                 "name": name,
                 "amount": float(amount),
-                "date": date
+                "date": date,
+                "category": category
             }
             print("\nExpense updated successfully!")
         else:

@@ -2,11 +2,19 @@
     {
         "name": "Coffee",
         "amount": 5.5,
-        "date": "2025-01-11"
+        "date": "2025-01-11",
+        "category": "Food"
     },
     {
         "name": "Grocery",
         "amount": 30.0,
-        "date": "2025-01-12"
+        "date": "2025-01-12",
+        "category": "Food"
+    },
+    {
+        "name": "Gas",
+        "amount": 49.99,
+        "date": "2025-01-10",
+        "category": "Transport"
     }
 ]
