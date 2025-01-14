@@ -1,5 +1,6 @@
 import sys
 from PySide6.QtWidgets import QApplication, QMainWindow, QLabel, QVBoxLayout, QWidget, QLineEdit, QPushButton, QMessageBox, QListWidget
+import expense_manager # Import the shared module
 
 class ExpenseTrackerGUI(QMainWindow):
     def __init__(self):
@@ -37,8 +38,9 @@ class ExpenseTrackerGUI(QMainWindow):
 
         central_widget.setLayout(layout)
 
-        # Initialize an empty list to store expenses
-        self.expenses = []
+        # Load expenses from the file on startup
+        self.expenses = expense_manager.load_expenses_from_file()
+        self.update_expense_list()
 
     def add_expense(self):
         # Get the text from the input filed
@@ -52,6 +54,9 @@ class ExpenseTrackerGUI(QMainWindow):
             self.expenses.append(expense_text)
             # Update the list widget to display the new expense
             self.update_expense_list()
+
+            # Save expenses to file
+            expense_manager.save_expenses_to_file(self.expenses)
 
             # Show a confirmation message
             QMessageBox.information(self, "Expense Added", f"Expense '{expense_text}' added successfully!")
