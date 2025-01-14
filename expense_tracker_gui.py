@@ -1,6 +1,13 @@
 import sys
 from PySide6.QtWidgets import QApplication, QMainWindow, QLabel, QVBoxLayout, QWidget, QLineEdit, QPushButton, QMessageBox, QListWidget
 import expense_manager # Import the shared module
+import shutil
+# Backup the file as soon as the program starts
+try:
+    shutil.copy("expenses.csv", "expenses_initial.bak")
+except FileNotFoundError:
+    # If the file doesn't exist yet, no backup is created
+    pass
 
 class ExpenseTrackerGUI(QMainWindow):
     def __init__(self):
