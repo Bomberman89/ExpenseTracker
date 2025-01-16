@@ -51,25 +51,26 @@ class ExpenseTrackerGUI(QMainWindow):
 
     def add_expense(self):
         # Get the text from the input filed
-        expense_text = self.expense_input.text()
+        expense = self.expense_input.text().strip()
 
         # Display a message box if input is empty
-        if not expense_text.strip():
-            QMessageBox.warning(self, "Warning", "Expense description cannot be empty!")
-        else:
-            # Add the expense to the list
-            self.expenses.append(expense_text)
-            # Update the list widget to display the new expense
-            self.update_expense_list()
+        if not expense:
+            QMessageBox.warning(self, "Invalid Input", "Expense cannot be empty!")
+            return
+        # Add the expense to the list
+        self.expenses.append(expense)
+        # Update the list widget to display the new expense
+        self.update_expense_list()
 
-            # Save expenses to file
-            expense_manager.save_expenses_to_file(self.expenses)
+        # Save expenses to file
+        expense_manager.save_expenses_to_file(self.expenses)
 
-            # Show a confirmation message
-            QMessageBox.information(self, "Expense Added", f"Expense '{expense_text}' added successfully!")
-            # Clear the input field
-            self.expense_input.clear()
-    
+        # Clear the input field
+        self.expense_input.clear()
+
+        # Show a confirmation message
+        QMessageBox.information(self, "Success", "Expense added successfully!")
+        
     def update_expense_list(self):
         # Clear the existing list and add the updated expenses
         self.expense_list.clear()
