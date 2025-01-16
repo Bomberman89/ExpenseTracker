@@ -39,6 +39,11 @@ class ExpenseTrackerGUI(QMainWindow):
         submit_button.clicked.connect(self.add_expense)
         layout.addWidget(submit_button)
 
+        # Add a button to delete selected expenses
+        delete_button = QPushButton("Delete Selected Expense", self)
+        delete_button.clicked.connect(self.delete_selected_expense)
+        layout.addWidget(delete_button)
+
         # Add a list widget to display the expenses
         self.expense_list = QListWidget(self)
         layout.addWidget(self.expense_list)
@@ -71,6 +76,23 @@ class ExpenseTrackerGUI(QMainWindow):
         # Show a confirmation message
         QMessageBox.information(self, "Success", "Expense added successfully!")
         
+    def delete_selected_expense(self):
+        # Get the currently selected item
+        selected_item = self.expense_list.currentItem()
+
+        if selected_item:
+            # Remove the selected item from the expense list
+            selected_expense = selected_item.text()
+            self.expenses.remove(selected_expense)
+            self.update_expense_list()
+
+            # Save the updated list to the file
+            expense_manager.save_expenses_to_file(self.expenses)
+
+            QMessageBox.information(self, "Expense Deleted", f"Expense '{selected_expense}' deleted successfully!")
+        else:
+            QMessageBox.warning(self, "Warning", "Please select an expense to delete!")
+
     def update_expense_list(self):
         # Clear the existing list and add the updated expenses
         self.expense_list.clear()
